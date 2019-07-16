@@ -48,6 +48,60 @@ CREATE TABLE seller
 
 -- Insert squares
 INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
+INSERT INTO square VALUE (null);
 
 -- Insert players
 INSERT INTO player (coins) VALUE (60);

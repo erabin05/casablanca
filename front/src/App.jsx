@@ -1,13 +1,13 @@
 import React, { Component, useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import subscribe from './api'
+import { subscribe, board } from './api'
 
 const App = () => {
   const [time, setTime] = useState('timeStamp')
   useEffect(()=>{
     subscribe((err, timeStamp)=>setTime(timeStamp))
+    board((err, board)=> console.log(board))
   },[])
 
   return (
