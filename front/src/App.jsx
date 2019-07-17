@@ -5,10 +5,16 @@ import { subscribe, board } from './api'
 
 const App = () => {
   const [time, setTime] = useState('timeStamp')
+  const [squares, setSquares] = useState([])
   useEffect(()=>{
     subscribe((err, timeStamp)=>setTime(timeStamp))
-    board((err, board)=> console.log(board))
+    board((err, squaresData)=> setSquares(squaresData))
+    console.log(squares)
   },[])
+
+  useEffect(()=>{
+    console.log(squares)
+  }, [squares])
 
   return (
   <main>

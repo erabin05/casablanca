@@ -10,24 +10,35 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', (client) => {
-  client.on('subscribeToTimer', (interval) => {
-    console.log('client is subscribing to timer with interval ', interval);
-    setInterval(() => {
-      client.emit('timer', new Date());
-    }, interval);
-  });
 
-  let board;
+  // client.on('subscribeToTimer', (interval) => {
+  //   console.log('client is subscribing to timer with interval ', interval);
+  //   setInterval(() => {
+  //     client.emit('timer', new Date());
+  //   }, interval);
+  // });
+
+  const squaresInBoard = (squares) => {
+    let board = []
+    let row = []
+    squares.forEach((square, i)=> {
+      row = [...row, square]
+      if ((i+1)%7 === 0){
+        board = [...board, row]
+        row = []
+      }
+    })
+    return board
+  }
 
   connection.query('SELECT * FROM square', (err, data) => {
     if (err) {
         console.log(err)
     } else {
-        board = data
+        client.emit('board', squaresInBoard(data))
     }
 
   })
-  client.emit('board', data)
 });
 
 
