@@ -9,16 +9,18 @@ const App = () => {
   useEffect(()=>{
     subscribe((err, timeStamp)=>setTime(timeStamp))
     board((err, squaresData)=> setSquares(squaresData))
-    console.log(squares)
   },[])
-
-  useEffect(()=>{
-    console.log(squares)
-  }, [squares])
 
   return (
   <main>
-    <p>{time}</p>
+    <section className='board'>
+      {squares.map((rows)=>(
+        <div className='row'>
+          {rows.map((square)=><div className='square'></div>)}
+        </div>
+      ))}
+    </section>
+    
   </main>
 )}
 
