@@ -38,11 +38,11 @@ CREATE TABLE player
 DROP TABLE IF EXISTS seller;
 CREATE TABLE seller
 (
+    `id` INT,
     `raw` INT,
     `column` INT,
     `direction` INT,
-    `left` INT,
-    `right` INT
+    `rotation` INT
 );
 
 
@@ -109,4 +109,4 @@ INSERT INTO player (coins) VALUE (60);
 INSERT INTO player (coins) VALUE (60);
 INSERT INTO player (coins) VALUE (60);
 -- Insert seller
-INSERT INTO seller VALUES (3, 3, 1, 1, 1);
+INSERT INTO seller VALUES (1, 3, 3, 1, 2);

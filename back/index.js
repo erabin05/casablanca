@@ -39,6 +39,26 @@ io.on('connection', (client) => {
     }
 
   })
+
+
+
+
+  client.on('seller', (seller) => {
+    connection.query('UPDATE seller SET ? WHERE id=1', [seller], (err, data)=> {
+      err && console.log(err)
+
+      connection.query('SELECT * FROM seller', (err, data) => {
+        if (err) {
+          console.log(err)
+        } else {
+          client.emit('sellerMove', data)
+        }
+      })
+    })
+  })
+
+
+
 });
 
 

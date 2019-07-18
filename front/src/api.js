@@ -9,3 +9,8 @@ export const subscribe = (cb) => {
 export const board = (cb) => {
     socket.on('board', board => cb(null, board))
 } 
+
+export const seller = (character, cb) => {
+    socket.on('sellerMove', seller => cb(null, seller))
+    socket.emit('seller', character)
+} 
