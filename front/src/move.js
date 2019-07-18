@@ -1,4 +1,4 @@
-export const launchDice = (setCharacter, character, seller)=>{
+export const moveCharacter = (setCharacter, character, seller)=>{
 
     const { direction, raw, column } = character 
     let newCharacter = {...character, rotation : 1 }
@@ -62,8 +62,14 @@ export const launchDice = (setCharacter, character, seller)=>{
             column : newColumn,
             direction : newDirection 
         }, 
-        (err, sellerData)=> setCharacter(sellerData[0])
+        (err, sellerData)=> {
+            setCharacter(sellerData[0])
+        }
     )
+}
+
+export const launchDice = (setDiceResult) => {
+    setDiceResult(Math.floor(Math.random() * (4 - 1) + 1))
 }
 
 

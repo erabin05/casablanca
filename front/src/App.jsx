@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 import { board, seller } from './api'
-import { launchDice, turnCharacter } from './move'
+import { launchDice, turnCharacter, moveCharacter } from './move'
 
 const initialCharacter = { 
   raw: 3, 
@@ -14,13 +14,28 @@ const initialCharacter = {
 const App = () => {
   const [squares, setSquares] = useState([])
   const [character, setCharacter] = useState({})
+  const [diceResult, setDiceResult] = useState(0)
+  const [characterMove, setCharacterMove] = useState(0)
 
   useEffect(()=>{
     board((err, squaresData)=> setSquares(squaresData))
     seller(character, (err, sellerData)=> setCharacter(sellerData[0]))
   },[])
 
-  useEffect(()=> console.log(character.direction))
+  useEffect(()=> {
+    console.log(`dice result ${diceResult}`)
+      moveCharacter(setCharacter, character, seller)
+      setCharacterMove(diceResult)
+  } ,[diceResult])
+
+  useEffect(()=> {
+    if (characterMove-1 > 0 ) {
+      setTimeout(()=>{
+        moveCharacter(setCharacter, character, seller)
+        setCharacterMove(currentDiceResult => currentDiceResult - 1)
+      }, 1000)
+    } 
+  } ,[character])
 
   return (
   <main>
@@ -46,7 +61,7 @@ const App = () => {
       restart
     </button>
     <button
-      onClick={()=>{launchDice(setCharacter, character, seller)}}
+      onClick={()=>{launchDice(setDiceResult)}}
     >
       Dice
     </button>
