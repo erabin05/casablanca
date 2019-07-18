@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
+import Command from './Component/Command'
+
 import { board, seller } from './api'
-import { launchDice, turnCharacter, moveCharacter } from './move'
+import { moveCharacter } from './move'
 
 const initialCharacter = { 
   raw: 3, 
@@ -25,14 +27,14 @@ const App = () => {
   useEffect(()=> {
     console.log(`dice result ${diceResult}`)
       moveCharacter(setCharacter, character, seller)
-      setCharacterMove(diceResult)
+      setCharacterMove(diceResult-1)
   } ,[diceResult])
 
   useEffect(()=> {
-    if (characterMove-1 > 0 ) {
+    if (characterMove > 0 ) {
       setTimeout(()=>{
         moveCharacter(setCharacter, character, seller)
-        setCharacterMove(currentDiceResult => currentDiceResult - 1)
+        setCharacterMove(currentCountOfMove => currentCountOfMove - 1)
       }, 1000)
     } 
   } ,[character])
@@ -55,26 +57,16 @@ const App = () => {
         </div>
       ))}
     </section>
-    <button
-      onClick={()=> seller(initialCharacter, (err, sellerData)=> setCharacter(sellerData[0]))}
-    >
-      restart
-    </button>
-    <button
-      onClick={()=>{launchDice(setDiceResult)}}
-    >
-      Dice
-    </button>
-    <button
-      onClick={()=>{turnCharacter(setCharacter, character, 1, seller)}}
-    >
-      turn left
-    </button>
-    <button
-      onClick={()=>{turnCharacter(setCharacter, character, 2, seller)}}
-    >
-      turn right
-    </button>
+    <Command  
+      {...{
+        initialCharacter,
+        character,
+        setCharacter,
+        setDiceResult,
+        characterMove
+      }}
+    />
+    <p>Dice result : {diceResult}</p>
   </main>
 )}
 
