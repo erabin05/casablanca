@@ -19,13 +19,28 @@ const App = () => {
   const [diceResult, setDiceResult] = useState(0)
   const [characterMove, setCharacterMove] = useState(0)
 
+  const isSquareAroundPlayer = ({raw, column}, sc, sr) => {
+    // sc === SquareColumn // sr === SquareRaw
+    // cc === characterColumn // cr === characterRaw
+    const cc = column
+    const cr = raw
+    if ((sc === cc-1 || sc === cc+1) && (cr+2 > sr) && (sr > cr-2)) {
+      return true
+    } else if ((sc === cc-2 || sc === cc+2) && (cr+1 > sr) && (sr > cr-1)) {
+      return true
+    } else if ((sc === cc) && ((sr > cr-3 && sr < cr) || (sr > cr && sr < cr+3))){
+      return true
+    } else {
+      return false
+    }
+  }
+
   useEffect(()=>{
     board((err, squaresData)=> setSquares(squaresData))
     seller(character, (err, sellerData)=> setCharacter(sellerData[0]))
   },[])
 
   useEffect(()=> {
-    console.log(`dice result ${diceResult}`)
       moveCharacter(setCharacter, character, seller)
       setCharacterMove(diceResult-1)
   } ,[diceResult])
@@ -53,7 +68,15 @@ const App = () => {
       </section>
       {squares.map((rows, i)=>(
         <div className='row' key={i}>
-          {rows.map((square, index)=><div className='square' key={index}></div>)}
+          {rows.map((square, j)=>
+            <div 
+              className='square' 
+              key={j}
+              style={{
+                backgroundColor :  isSquareAroundPlayer(character, j, i)  && 'green'
+              }}
+            ></div>
+          )}
         </div>
       ))}
     </section>
