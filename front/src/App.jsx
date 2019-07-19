@@ -17,6 +17,7 @@ const App = () => {
   const [squares, setSquares] = useState([])
   const [character, setCharacter] = useState({})
   const [diceResult, setDiceResult] = useState(0)
+  const [dispalyDiceResult, setDisplayDiceResult] = useState(0)
   const [characterMove, setCharacterMove] = useState(0)
 
   const isSquareAroundPlayer = ({raw, column}, sc, sr) => {
@@ -41,8 +42,13 @@ const App = () => {
   },[])
 
   useEffect(()=> {
+    console.log('start move')
+    if (diceResult > 0 ) {
       moveCharacter(setCharacter, character, seller)
       setCharacterMove(diceResult-1)
+      console.log('characterMove ' + characterMove)
+      characterMove === 0 && setDiceResult(0)
+    }
   } ,[diceResult])
 
   useEffect(()=> {
@@ -50,6 +56,8 @@ const App = () => {
       setTimeout(()=>{
         moveCharacter(setCharacter, character, seller)
         setCharacterMove(currentCountOfMove => currentCountOfMove - 1)
+        console.log('characterMove ' + characterMove)
+        characterMove === 1 && setDiceResult(0)
       }, 1000)
     } 
   } ,[character])
@@ -86,10 +94,11 @@ const App = () => {
         character,
         setCharacter,
         setDiceResult,
-        characterMove
+        characterMove,
+        setDisplayDiceResult
       }}
     />
-    <p>Dice result : {diceResult}</p>
+    <p>Dice result : {dispalyDiceResult}</p>
   </main>
 )}
 

@@ -68,8 +68,10 @@ export const moveCharacter = (setCharacter, character, seller)=>{
     )
 }
 
-export const launchDice = (setDiceResult) => {
-    setDiceResult(Math.floor(Math.random() * (4 - 1) + 1))
+export const launchDice = (setDiceResult, setDisplayDiceResult) => {
+    const result = Math.floor(Math.random() * (4 - 1) + 1)
+    setDisplayDiceResult(result)
+    setDiceResult(result)
 }
 
 

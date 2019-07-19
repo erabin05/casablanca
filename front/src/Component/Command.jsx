@@ -8,7 +8,8 @@ const Command = ({
     character,
     setCharacter,
     setDiceResult,
-    characterMove
+    characterMove,
+    setDisplayDiceResult
   }) => {
 
     const hasCharacterMoved = characterMove <= 0
@@ -25,8 +26,8 @@ const Command = ({
                     opacity : hasCharacterMoved ? '1' : '0.5' 
                 }}
                 onClick={()=>{
-                    hasCharacterMoved &&
-                    launchDice(setDiceResult)
+                    console.log('hola')
+                    launchDice(setDiceResult, setDisplayDiceResult)
                 }}
             >
                 Dice
