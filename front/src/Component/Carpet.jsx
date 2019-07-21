@@ -13,8 +13,8 @@ const Carpet = ({
         <section 
             className='carpet'
             style={{
-                marginTop : `${raw*100}px`, 
-                marginRight : `${column*100}px` 
+                marginTop : `${raw*102}px`, 
+                marginLeft : `${column*100}px` 
             }}
         >
         </section>

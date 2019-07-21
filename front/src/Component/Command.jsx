@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { seller } from '../api'
+import { seller, getCarpets } from '../api'
 import { launchDice, turnCharacter } from '../Gameplay/move'
 
 const Command = ({
@@ -9,7 +9,9 @@ const Command = ({
     setCharacter,
     setDiceResult,
     characterMove,
-    setDisplayDiceResult
+    setDisplayDiceResult,
+    carpets,
+    setCarpets
   }) => {
 
     const hasCharacterMoved = characterMove <= 0
@@ -17,7 +19,18 @@ const Command = ({
     return (
         <section>
             <button
-                onClick={()=> seller(initialCharacter, (err, sellerData)=> setCharacter(sellerData[0]))}
+                onClick={()=> {
+                    seller(initialCharacter, (err, sellerData)=> setCharacter(sellerData[0]))
+                    carpets.forEach((carpet) => {
+                        getCarpets({
+                            id : carpet.id,
+                            raw_square1 : null,
+                            raw_square2 : null,
+                            column_square1 : null,
+                            column_square2 : null
+                          }, (err, carpetsData) => setCarpets(carpetsData))
+                    })
+                }}
             >
                 restart
             </button>
