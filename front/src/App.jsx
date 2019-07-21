@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 import Command from './Component/Command'
+import Carpet from './Component/Carpet'
 
-import { board, seller } from './api'
-import { moveCharacter } from './move'
+import { board, seller, getCarpets } from './api'
+import { moveCharacter } from './Gameplay/move'
+import { isSquareAroundPlayer } from './Gameplay/carpetPosition'
 
 const initialCharacter = { 
   raw: 3, 
@@ -15,39 +17,29 @@ const initialCharacter = {
 
 const App = () => {
   const [squares, setSquares] = useState([])
+  const [player, setPlayer] = useState(0)
+
   const [character, setCharacter] = useState({})
-  const [diceResult, setDiceResult] = useState(0)
-  const [dispalyDiceResult, setDisplayDiceResult] = useState(0)
   const [characterMove, setCharacterMove] = useState(0)
 
-  const isSquareAroundPlayer = ({raw, column}, sc, sr) => {
-    // sc === SquareColumn // sr === SquareRaw
-    // cc === characterColumn // cr === characterRaw
-    const cc = column
-    const cr = raw
-    if ((sc === cc-1 || sc === cc+1) && (cr+2 > sr) && (sr > cr-2)) {
-      return true
-    } else if ((sc === cc-2 || sc === cc+2) && (cr+1 > sr) && (sr > cr-1)) {
-      return true
-    } else if ((sc === cc) && ((sr > cr-3 && sr < cr) || (sr > cr && sr < cr+3))){
-      return true
-    } else {
-      return false
-    }
-  }
+  const [diceResult, setDiceResult] = useState(0)
+  const [dispalyDiceResult, setDisplayDiceResult] = useState(0)
+
+  const [carpets, setCarpets] = useState([])
+  const [carpet, setCarpet] = useState({})
 
   useEffect(()=>{
+    setPlayer(1)
     board((err, squaresData)=> setSquares(squaresData))
     seller(character, (err, sellerData)=> setCharacter(sellerData[0]))
+    getCarpets(carpet, (err, carpetsData) => setCarpets(carpetsData))
   },[])
 
   useEffect(()=> {
-    console.log('start move')
     if (diceResult > 0 ) {
       moveCharacter(setCharacter, character, seller)
       setCharacterMove(diceResult-1)
-      console.log('characterMove ' + characterMove)
-      characterMove === 0 && setDiceResult(0)
+      setDiceResult(0)
     }
   } ,[diceResult])
 
@@ -56,15 +48,21 @@ const App = () => {
       setTimeout(()=>{
         moveCharacter(setCharacter, character, seller)
         setCharacterMove(currentCountOfMove => currentCountOfMove - 1)
-        console.log('characterMove ' + characterMove)
-        characterMove === 1 && setDiceResult(0)
       }, 1000)
     } 
   } ,[character])
 
+  useEffect(()=>{console.log(carpets)},[carpets])
+
   return (
   <main>
     <section className='board'>
+
+      {carpets
+        .filter(carpet => carpet.raw_square1)
+        .map(carpet => <Carpet {...carpet}/>)
+      }
+
       <section 
         className='seller'
         style={{
@@ -74,6 +72,7 @@ const App = () => {
         }}>
           <div></div>
       </section>
+
       {squares.map((rows, i)=>(
         <div className='row' key={i}>
           {rows.map((square, j)=>

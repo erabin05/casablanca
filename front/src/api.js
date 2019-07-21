@@ -14,3 +14,8 @@ export const seller = (character, cb) => {
     socket.on('sellerMove', seller => cb(null, seller))
     socket.emit('seller', character)
 } 
+
+export const getCarpets = (carpet, cb) => {
+    socket.on('carpetStatus', carpets => cb(null, carpets))
+    socket.emit('carpets', carpet)
+}

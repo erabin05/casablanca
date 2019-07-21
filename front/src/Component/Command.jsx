@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 import { seller } from '../api'
-import { launchDice, turnCharacter } from '../move'
+import { launchDice, turnCharacter } from '../Gameplay/move'
 
 const Command = ({
     initialCharacter,
@@ -26,7 +26,6 @@ const Command = ({
                     opacity : hasCharacterMoved ? '1' : '0.5' 
                 }}
                 onClick={()=>{
-                    console.log('hola')
                     launchDice(setDiceResult, setDisplayDiceResult)
                 }}
             >

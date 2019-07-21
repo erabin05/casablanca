@@ -24,25 +24,22 @@ io.on('connection', (client) => {
     return board
   }
 
-  connection.query('SELECT * FROM square', (err, data) => {
-    if (err) {
-        console.log(err)
+  connection.query('SELECT * FROM square', (err_board, data) => {
+    if (err_board) {
+        console.log(`error when trying to get board : ${err_board}`)
     } else {
         client.emit('board', squaresInBoard(data))
     }
 
   })
 
+  client.on('seller', seller => {
+    connection.query('UPDATE seller SET ? WHERE id=1', [seller], (err_seller, data)=> {
+      err_seller && console.log(`error when trying to update seller : ${err_seller}`)
 
-
-
-  client.on('seller', (seller) => {
-    connection.query('UPDATE seller SET ? WHERE id=1', [seller], (err, data)=> {
-      err && console.log(err)
-
-      connection.query('SELECT * FROM seller', (err, data) => {
-        if (err) {
-          console.log(err)
+      connection.query('SELECT * FROM seller', (err_sellerMove, data) => {
+        if (err_sellerMove) {
+          console.log(`error when trying to get seller : ${err_sellerMove}`)
         } else {
           client.emit('sellerMove', data)
         }
@@ -50,7 +47,21 @@ io.on('connection', (client) => {
     })
   })
 
+  client.on('carpets', carpet => {
 
+    const carpetID = carpet.id ? carpet.id : 0
+    connection.query('UPDATE carpet SET ? WHERE id=?', [carpet, carpetID], (err_carpet, data) => {
+      err_carpet && console.log(err_carpet)
+
+      connection.query('SELECT * FROM carpet', (err_carpetStatus, data) => {
+        if (err_carpetStatus) {
+          console.log(`error when trying to get carpet : ${err_carpetStatus}`)
+        } else {
+          client.emit('carpetStatus', data)
+        }
+      })
+    })
+  })
 
 });
 
