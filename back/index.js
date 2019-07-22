@@ -47,16 +47,7 @@ io.on('connection', (client) => {
     })
   })
 
-  
-  const updateCarpetQuery = 
-  `
-    UPDATE carpet SET ? 
-    WHERE ID = (SELECT ID FROM carpet WHERE raw_square1=NULL ORDER BY ID LIMIT 1) 
-  `
-
   client.on('carpets', carpet => {
-
-    console.log(`!!!!!!! carpet !!!!!!!!! ${carpet}`)
 
     const carpetID = carpet.id ? carpet.id : 0
     connection.query('UPDATE carpet SET ? WHERE id=?', [carpet, carpetID], (err_carpet, data) => {

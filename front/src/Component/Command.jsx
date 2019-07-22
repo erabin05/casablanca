@@ -11,7 +11,8 @@ const Command = ({
     characterMove,
     setDisplayDiceResult,
     carpets,
-    setCarpets
+    setCarpets,
+    setCarpetPosition
   }) => {
 
     const hasCharacterMoved = characterMove <= 0
@@ -53,6 +54,11 @@ const Command = ({
                 onClick={()=>{turnCharacter(setCharacter, character, 2, seller)}}
             >
             turn right
+            </button>
+            <button
+                onClick={()=>{setCarpetPosition(cp => !cp)}}
+            >
+                turn carpet
             </button>
         </section>
     )

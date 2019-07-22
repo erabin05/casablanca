@@ -26,7 +26,7 @@ const App = () => {
   const [dispalyDiceResult, setDisplayDiceResult] = useState(0)
 
   const [carpets, setCarpets] = useState([])
-  // const [carpet, setCarpet] = useState({})
+  const [carpetPosition, setCarpetPosition] = useState(true)
 
   useEffect(()=>{
     setPlayer(1)
@@ -58,7 +58,16 @@ const App = () => {
 
       {carpets
         .filter(carpet => carpet.raw_square1 !== null)
-        .map(carpet => <Carpet key={carpet.id} {...carpet}/>)
+        .map(carpet => 
+          <Carpet 
+            key={carpet.id} 
+            {...{
+              ...carpet,
+              character,
+              carpetPosition
+            }}
+          />
+          )
       }
 
       <section 
@@ -81,13 +90,12 @@ const App = () => {
                 backgroundColor :  isSquareAroundPlayer(character, j, i)  && 'green'
               }}
               onClick={()=>{
-                isSquareAroundPlayer(character, j, i) &&
                 getCarpets({
                   id : 1,
                   raw_square1 : i,
-                  raw_square2 : i,
+                  raw_square2 : carpetPosition ? i : i +1,
                   column_square1 : j,
-                  column_square2 : j+1
+                  column_square2 : carpetPosition ? j +1 : j
                 }, (err, carpetsData) => setCarpets(carpetsData))
               }}
             ></div>
@@ -104,7 +112,8 @@ const App = () => {
         characterMove,
         setDisplayDiceResult,
         carpets,
-        setCarpets
+        setCarpets,
+        setCarpetPosition
       }}
     />
     <p>Dice result : {dispalyDiceResult}</p>
