@@ -12,7 +12,8 @@ const Command = ({
     setDisplayDiceResult,
     carpets,
     setCarpets,
-    setCarpetPosition
+    carpetToApply,
+    setCarpetToApply
   }) => {
 
     const hasCharacterMoved = characterMove <= 0
@@ -56,10 +57,15 @@ const Command = ({
             turn right
             </button>
             <button
-                onClick={()=>{setCarpetPosition(cp => !cp)}}
+                onClick={()=>{setCarpetToApply(carpet => ({...carpet, position : !carpet.position}))}}
             >
                 turn carpet
             </button>
+            <button
+                onClick={()=>{getCarpets({...carpetToApply, id:1}, (err, carpetsData) => {
+                    console.log(carpetsData)
+                    setCarpets(carpetsData)})}}
+            >validate carpet</button>
         </section>
     )
 }

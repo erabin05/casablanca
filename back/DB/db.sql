@@ -21,6 +21,7 @@ CREATE TABLE carpet
     raw_square2 INT,
     column_square1 INT,
     column_square2 INT,
+    position BOOLEAN,
     FOREIGN KEY (playerID) REFERENCES carpet(id)
 );
 

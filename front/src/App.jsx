@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
+import Board from './Component/Board'
 import Command from './Component/Command'
 import Carpet from './Component/Carpet'
 
@@ -15,6 +16,14 @@ const initialCharacter = {
   rotation : 1,
 }
 
+const initialCarpetToApply = {
+  raw_square1 : null,
+  raw_square2 : null,
+  column_square1 : null,
+  column_square2 : null,
+  position : true
+}
+
 const App = () => {
   const [squares, setSquares] = useState([])
   const [player, setPlayer] = useState(0)
@@ -26,7 +35,8 @@ const App = () => {
   const [dispalyDiceResult, setDisplayDiceResult] = useState(0)
 
   const [carpets, setCarpets] = useState([])
-  const [carpetPosition, setCarpetPosition] = useState(true)
+  const carpetsPlayer = carpets.filter(carpet => carpet.playerID === player)
+  const [carpetToApply, setCarpetToApply] = useState(initialCarpetToApply)
 
   useEffect(()=>{
     setPlayer(1)
@@ -56,6 +66,17 @@ const App = () => {
   <main>
     <section className='board'>
 
+    {/* Board */}
+    <Board
+        squares={squares}
+        styleSquare={(i,j) => ({
+          borderColor : '#fff',
+          backgroundColor :  'grey'
+        })}
+        handleClickOnSquare={()=>{}}
+      />
+
+      {/* Carpets */}
       {carpets
         .filter(carpet => carpet.raw_square1 !== null)
         .map(carpet => 
@@ -63,13 +84,13 @@ const App = () => {
             key={carpet.id} 
             {...{
               ...carpet,
-              character,
-              carpetPosition
+              character
             }}
           />
-          )
+        )
       }
 
+      {/* Seller */}
       <section 
         className='seller'
         style={{
@@ -80,29 +101,35 @@ const App = () => {
           <div></div>
       </section>
 
-      {squares.map((rows, i)=>(
-        <div className='row' key={i}>
-          {rows.map((square, j)=>
-            <div 
-              className='square' 
-              key={j}
-              style={{
-                backgroundColor :  isSquareAroundPlayer(character, j, i)  && 'green'
-              }}
-              onClick={()=>{
-                getCarpets({
-                  id : 1,
-                  raw_square1 : i,
-                  raw_square2 : carpetPosition ? i : i +1,
-                  column_square1 : j,
-                  column_square2 : carpetPosition ? j +1 : j
-                }, (err, carpetsData) => setCarpets(carpetsData))
-              }}
-            ></div>
-          )}
-        </div>
-      ))}
+      {/* Square to put carpet on */}
+      <Board
+        squares={squares}
+        styleSquare={(i,j) => ({
+          opacity : '0.3',
+          borderColor : 'transparent',
+          backgroundColor :  isSquareAroundPlayer(character, j, i)  && 'green'
+        })}
+        handleClickOnSquare={(i,j)=>{
+          setCarpetToApply({
+            ... carpetToApply,
+            raw_square1 : i,
+            raw_square2 : carpetToApply.position ? i : i +1,
+            column_square1 : j,
+            column_square2 : carpetToApply.position ? j +1 : j
+          })
+        }}
+      />
+
+      <Carpet
+        {...{
+          ...carpetToApply,
+          character
+        }}
+      />
+
     </section>
+
+    {/* Commands */}
     <Command  
       {...{
         initialCharacter,
@@ -113,7 +140,8 @@ const App = () => {
         setDisplayDiceResult,
         carpets,
         setCarpets,
-        setCarpetPosition
+        carpetToApply,
+        setCarpetToApply
       }}
     />
     <p>Dice result : {dispalyDiceResult}</p>
