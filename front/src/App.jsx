@@ -4,6 +4,7 @@ import './App.css';
 import Board from './Component/Board'
 import Command from './Component/Command'
 import Carpet from './Component/Carpet'
+import Character from './Component/Character'
 
 import { board, seller, getCarpets } from './api'
 import { moveCharacter } from './Gameplay/move'
@@ -38,6 +39,12 @@ const App = () => {
   const carpetsPlayer = carpets.filter(carpet => carpet.playerID === player)
   const [carpetToApply, setCarpetToApply] = useState(initialCarpetToApply)
 
+  // TimeLine
+  const [step, setStep] = useState(0)
+  const [turn, setTurn] = useState(0)
+
+  const end = turn === carpetsPlayer.length
+
   useEffect(()=>{
     setPlayer(1)
     board((err, squaresData)=> setSquares(squaresData))
@@ -50,6 +57,9 @@ const App = () => {
       moveCharacter(setCharacter, character, seller)
       setCharacterMove(diceResult-1)
       setDiceResult(0)
+        setTimeout(()=>{
+         setStep(2)
+      },(1000*diceResult))
     }
   } ,[diceResult])
 
@@ -90,18 +100,9 @@ const App = () => {
         )
       }
 
-      {/* Seller */}
-      <section 
-        className='seller'
-        style={{
-          marginTop : `${25 + (100)*character.raw}px`,
-          marginLeft : `${25 + (100)*character.column}px`,
-          transform : `rotate(${(character.direction - 1)*90}deg)`
-        }}>
-          <div></div>
-      </section>
-
       {/* Square to put carpet on */}
+      {
+      step === 2 &&
       <Board
         squares={squares}
         styleSquare={(i,j) => ({
@@ -119,14 +120,26 @@ const App = () => {
           })
         }}
       />
+      }
 
+      {
+        step === 2 &&
       <Carpet
         {...{
           ...carpetToApply,
           character
         }}
+        toApply
       />
+      }
 
+      {/* Seller */}
+      <Character {...{
+        character,
+        setCharacter,
+        step
+        }}
+      />
     </section>
 
     {/* Commands */}
@@ -141,10 +154,16 @@ const App = () => {
         carpets,
         setCarpets,
         carpetToApply,
-        setCarpetToApply
+        setCarpetToApply,
+        setStep,
+        step,
+        carpetsPlayer,
+        turn,
+        setTurn
       }}
     />
     <p>Dice result : {dispalyDiceResult}</p>
+    {end && <p>C'est finis</p>}
   </main>
 )}
 

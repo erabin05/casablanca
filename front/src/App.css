@@ -12,6 +12,11 @@ main {
   position: absolute;
 }
 
+.character {
+  position: relative;
+  transition: 1s;
+}
+
 .seller {
   position: absolute;
   width: 50px;
@@ -19,6 +24,29 @@ main {
   background: #222;
   border-radius: 50%;
   transition: 1s;
+}
+
+.character figure{
+  position: absolute;
+  width: 20px;
+}
+
+.character figure:hover {
+  cursor: pointer;
+}
+
+.character figure > img {
+  width: 100%;
+}
+.character .left {
+  transform: rotate(-90deg);
+  margin-top: -10px;
+  margin-left: -10px;
+}
+.character .right {
+  transform: rotate(90deg);
+  margin-top: -10px;
+  margin-right: -10px;
 }
 
 .seller > div {
@@ -40,8 +68,9 @@ main {
 }
 
 .carpet {
-  width: 200px;
-  height: 102px;
+  width: 198px;
+  height: 100px;
   position: absolute;
   background: black;
+  border : solid 1px #fff;
 }
