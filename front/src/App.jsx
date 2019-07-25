@@ -127,7 +127,15 @@ const App = () => {
       <Carpet
         {...{
           ...carpetToApply,
-          character
+          character,
+          character,
+          setCarpetToApply,
+          carpetToApply,
+          setStep,
+          setTurn,
+          turn,
+          carpetsPlayer,
+          setCarpets,
         }}
         toApply
       />

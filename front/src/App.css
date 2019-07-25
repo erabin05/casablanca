@@ -1,5 +1,6 @@
 main {
   display: flex;
+  margin : 50px 50px 50px 50px;
 }
 
 .board {
@@ -35,9 +36,6 @@ main {
   cursor: pointer;
 }
 
-.character figure > img {
-  width: 100%;
-}
 .character .left {
   transform: rotate(-90deg);
   margin-top: -10px;
@@ -46,7 +44,7 @@ main {
 .character .right {
   transform: rotate(90deg);
   margin-top: -10px;
-  margin-right: -10px;
+  margin-left: 40px;
 }
 
 .seller > div {
@@ -67,10 +65,46 @@ main {
   border : solid 1px;
 }
 
+.carpet-container {
+  position: absolute;
+}
+
 .carpet {
   width: 198px;
   height: 100px;
-  position: absolute;
   background: black;
   border : solid 1px #fff;
 }
+
+/* .carpet > figure {
+  position: absolute;
+  width: 20px;
+} */
+
+.carpet-container > .carpet-commands {
+  position: relative;
+}
+
+.carpet-container > .carpet-commands > div {
+  position: absolute ;
+  width: 60px;
+  height: 30px;
+  background: #fff;
+  border : solid 1px #000;
+}
+
+.carpet-container > .carpet-commands > div > div {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: space-around;
+  display: flex;
+}
+
+.carpet-container > .carpet-commands > div > div > figure {
+  width: 20px;
+}
+.carpet-container > .carpet-commands > div > div > figure:hover {
+  cursor: pointer;
+}
+
