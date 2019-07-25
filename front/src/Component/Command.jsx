@@ -61,7 +61,14 @@ const Command = ({
                 </button>
             }
             <button
-                onClick={()=>{setCarpetToApply(carpet => ({...carpet, position : !carpet.position}))}}
+                onClick={()=>{setCarpetToApply(carpet => ({
+                    ...carpet,
+                    // raw_square1 : carpet.position ? :
+                    raw_square2 : carpet.position ? (carpet.raw_square1+1) : raw_square1,
+                    // column_square1 : carpet.position ? :
+                    column_square2 : carpet.position ? carpet.column_square1 : (carpet.column_square1+1),
+                    position : !carpet.position
+                }))}}
             >
                 turn carpet
             </button>
