@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { isSquareAroundPlayer } from '../Gameplay/carpetPosition'
-import {    getCarpets } from '../api'
+import { isSquareAroundPlayer, carpetColor } from '../Gameplay/carpetPosition'
+import { getCarpets, getGame } from '../api'
 
 import rightArrow from '../rightArrow.png'
 import leftArrow from '../leftArrow.png'
@@ -17,15 +17,17 @@ const Carpet = ({
     character,
     setCarpetToApply,
     carpetToApply,
-    setStep,
-    setTurn,
     turn,
+    player,
     carpetsPlayer,
     setCarpets,
     toApply,
+    game, 
+    setGame
 }) => {
     const raw = raw_square1 < raw_square2 ? raw_square1 : raw_square2
     const column = column_square1 < column_square2 ? column_square1 : column_square2
+
     return (
         <section 
             className='carpet-container'
@@ -64,8 +66,12 @@ const Carpet = ({
                                         && isSquareAroundPlayer(character, column_square2, raw_square2)
                                     ){
                                         getCarpets({...carpetToApply, id: carpetsPlayer[turn].id}, (err, carpetsData) => {setCarpets(carpetsData)})
-                                        setStep(0)
-                                        setTurn(prevTurn => prevTurn+1)
+                                        getGame({
+                                            ...game, 
+                                            step : 0,
+                                            turn : player === 4 ? turn + 1 : turn,
+                                            player : player < 4 ?  player + 1 : 1
+                                        }, (err, game) => setGame(game))
                                     }
                                 }}
                             >
@@ -78,7 +84,7 @@ const Carpet = ({
             <div
                 className='carpet'
                 style={{
-                    backgroundColor : toApply ? 'black' : '#4abcbe',
+                    backgroundColor : toApply ? 'black' : carpetColor(playerID),
                     opacity : toApply ? '0.6' : '1',
                     transform : `rotate(${position ? 0 : 90}deg)`,
                     border : toApply && `solid 1px  ${

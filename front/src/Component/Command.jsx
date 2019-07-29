@@ -1,30 +1,24 @@
 import React from 'react'
 
-import { seller, getCarpets } from '../api'
+import { seller, getCarpets, getGame } from '../api'
 import { launchDice, turnCharacter } from '../Gameplay/move'
 
 import { isSquareAroundPlayer } from '../Gameplay/carpetPosition'
 
 const Command = ({
     initialCharacter,
-    character,
     setCharacter,
     setDiceResult,
     characterMove,
     setDisplayDiceResult,
     carpets,
     setCarpets,
-    carpetToApply,
-    setCarpetToApply,
-    setStep,
     step,
-    carpetsPlayer,
-    turn,
-    setTurn
+    game,
+    setGame
   }) => {
 
     const hasCharacterMoved = characterMove <= 0
-    const {raw_square1, raw_square2, column_square1, column_square2} = carpetToApply
 
     return (
         <section>
@@ -40,8 +34,7 @@ const Command = ({
                             column_square2 : null
                           }, (err, carpetsData) => setCarpets(carpetsData))
                     })
-                    setStep(0)
-                    setTurn(0)
+                    getGame({turn : 0, step : 0, player : 1}, (err, game) => setGame(game))
                 }}
             >
                 restart
@@ -54,38 +47,12 @@ const Command = ({
                     }}
                     onClick={()=>{
                         launchDice(setDiceResult, setDisplayDiceResult)
-                        setStep(1)
+                        getGame({...game, step : 1}, (err, game) => setGame(game))
                     }}
                 >
                     Dice
                 </button>
             }
-            <button
-                onClick={()=>{setCarpetToApply(carpet => ({
-                    ...carpet,
-                    raw_square2 : carpet.position ? (carpet.raw_square1+1) : raw_square1,
-                    column_square2 : carpet.position ? carpet.column_square1 : (carpet.column_square1+1),
-                    position : !carpet.position
-                }))}}
-            >
-                turn carpet
-            </button>
-            <button
-                
-                onClick={()=>{
-                    if (
-                        isSquareAroundPlayer(character, column_square1, raw_square1) 
-                        && isSquareAroundPlayer(character, column_square2, raw_square2)
-                    ){
-                        getCarpets({...carpetToApply, id: carpetsPlayer[turn].id}, (err, carpetsData) => {setCarpets(carpetsData)})
-                        setStep(0)
-                        setTurn(prevTurn => prevTurn+1)
-                    } else {
-
-                    }
-                    
-                }}
-            >validate carpet</button>
         </section>
     )
 }

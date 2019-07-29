@@ -46,6 +46,16 @@ CREATE TABLE seller
     `rotation` INT
 );
 
+-- Create Table 'game'
+DROP TABLE IF EXISTS game;
+CREATE TABLE game
+(
+    `id` INT,
+    `player` INT,
+    `step` INT,
+    `turn` INT
+);
+
 
 -- Insert squares
 INSERT INTO square VALUE (null);
@@ -158,3 +168,6 @@ INSERT INTO carpet (playerID) VALUES (4);
 INSERT INTO carpet (playerID) VALUES (4);
 INSERT INTO carpet (playerID) VALUES (4);
 INSERT INTO carpet (playerID) VALUES (4);
+
+-- Insert game turn, step, player playing
+INSERT INTO game (id, player, step, turn) VALUES (1, 1, 0, 0);

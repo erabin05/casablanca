@@ -6,7 +6,7 @@ import Command from './Component/Command'
 import Carpet from './Component/Carpet'
 import Character from './Component/Character'
 
-import { board, seller, getCarpets } from './api'
+import { board, seller, getCarpets, getGame } from './api'
 import { moveCharacter } from './Gameplay/move'
 import { isSquareAroundPlayer } from './Gameplay/carpetPosition'
 
@@ -27,7 +27,6 @@ const initialCarpetToApply = {
 
 const App = () => {
   const [squares, setSquares] = useState([])
-  const [player, setPlayer] = useState(0)
 
   const [character, setCharacter] = useState({})
   const [characterMove, setCharacterMove] = useState(0)
@@ -36,21 +35,23 @@ const App = () => {
   const [dispalyDiceResult, setDisplayDiceResult] = useState(0)
 
   const [carpets, setCarpets] = useState([])
-  const carpetsPlayer = carpets.filter(carpet => carpet.playerID === player)
+  
   const [carpetToApply, setCarpetToApply] = useState(initialCarpetToApply)
 
   // TimeLine
-  const [step, setStep] = useState(0)
-  const [turn, setTurn] = useState(0)
+  const [game, setGame] = useState({})
+  const {step, player, turn} = game
 
+  const carpetsPlayer = carpets.filter(carpet => carpet.playerID === player)
   const end = turn === carpetsPlayer.length
 
   useEffect(()=>{
-    setPlayer(1)
     board((err, squaresData)=> setSquares(squaresData))
     seller(character, (err, sellerData)=> setCharacter(sellerData[0]))
     getCarpets({}, (err, carpetsData) => setCarpets(carpetsData))
+    getGame({}, (err, game) => setGame(game))
   },[])
+
 
   useEffect(()=> {
     if (diceResult > 0 ) {
@@ -58,7 +59,7 @@ const App = () => {
       setCharacterMove(diceResult-1)
       setDiceResult(0)
         setTimeout(()=>{
-         setStep(2)
+          getGame({...game, step : 2}, (err, game) => setGame(game))
       },(1000*diceResult))
     }
   } ,[diceResult])
@@ -131,11 +132,12 @@ const App = () => {
           character,
           setCarpetToApply,
           carpetToApply,
-          setStep,
-          setTurn,
           turn,
           carpetsPlayer,
           setCarpets,
+          setGame,
+          game,
+          player
         }}
         toApply
       />
@@ -163,11 +165,11 @@ const App = () => {
         setCarpets,
         carpetToApply,
         setCarpetToApply,
-        setStep,
         step,
         carpetsPlayer,
         turn,
-        setTurn
+        game,
+        setGame
       }}
     />
     <p>Dice result : {dispalyDiceResult}</p>

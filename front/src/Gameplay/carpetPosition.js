@@ -15,3 +15,18 @@ export const isSquareAroundPlayer = ({raw, column}, sc, sr) => {
       return false
     }
   }
+
+export const carpetColor = player => {
+  switch (player){
+      case 1 :
+      return '#2d7f81'
+      case 2 :
+      return '#bf0e0e'
+      case 3 :
+      return '#f0de2d'
+      case 4 :
+      return '#734c23'
+      default :
+          return 'red'
+  }
+}

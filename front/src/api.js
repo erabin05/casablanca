@@ -19,3 +19,8 @@ export const getCarpets = (carpet, cb) => {
     socket.on('carpetStatus', carpets => cb(null, carpets))
     socket.emit('carpets', carpet)
 }
+
+export const getGame = (game, cb) => {
+    socket.on('getGame', gameR => cb(null, gameR))
+    socket.emit('game', game)
+}
