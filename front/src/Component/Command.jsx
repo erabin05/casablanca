@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { seller, getCarpets, getGame } from '../api'
-import { launchDice, turnCharacter } from '../Gameplay/move'
+import { launchDice } from '../Gameplay/move'
 
-import { isSquareAroundPlayer } from '../Gameplay/carpetPosition'
+import { carpetColor } from '../Gameplay/carpetPosition'
 
 const Command = ({
     initialCharacter,
@@ -15,7 +15,8 @@ const Command = ({
     setCarpets,
     step,
     game,
-    setGame
+    setGame,
+    player
   }) => {
 
     const hasCharacterMoved = characterMove <= 0
@@ -53,6 +54,13 @@ const Command = ({
                     Dice
                 </button>
             }
+            <div
+                style={{
+                    backgroundColor : carpetColor(player),
+                    width : '20px',
+                    height : '20px'
+                }} 
+            ></div>
         </section>
     )
 }

@@ -20,6 +20,7 @@ const Carpet = ({
     turn,
     player,
     carpetsPlayer,
+    carpets,
     setCarpets,
     toApply,
     game, 

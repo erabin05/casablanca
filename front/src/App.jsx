@@ -134,6 +134,7 @@ const App = () => {
           carpetToApply,
           turn,
           carpetsPlayer,
+          carpets,
           setCarpets,
           setGame,
           game,
@@ -169,7 +170,8 @@ const App = () => {
         carpetsPlayer,
         turn,
         game,
-        setGame
+        setGame,
+        player
       }}
     />
     <p>Dice result : {dispalyDiceResult}</p>

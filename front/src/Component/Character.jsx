@@ -6,7 +6,11 @@ import leftArrow from '../leftArrow.png'
 import { seller } from '../api'
 import { turnCharacter } from '../Gameplay/move'
 
-const Character = ({character, setCharacter, step}) => (
+const Character = ({
+    character, 
+    setCharacter, 
+    step
+}) => (
     <section 
         className='character'
         style={{

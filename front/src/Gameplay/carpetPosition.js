@@ -16,6 +16,21 @@ export const isSquareAroundPlayer = ({raw, column}, sc, sr) => {
     }
   }
 
+export const isCarpetNotOnOtherCarpet = (
+  column_square1, 
+  column_square2,
+  raw_square1,
+  raw_square2,
+  allCarpets
+) => (
+  allCarpets.find((carpet) => (
+    carpet.column_square1 === column_square1
+    && carpet.column_square2 === column_square2
+    && carpet.raw_square1 === raw_square1
+    && carpet.raw_square2 === raw_square2
+  )).length
+)
+
 export const carpetColor = player => {
   switch (player){
       case 1 :
